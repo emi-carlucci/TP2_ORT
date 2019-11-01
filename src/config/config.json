@@ -1,0 +1,10 @@
+{
+  "name": "config_file",
+  "version": "1.0",
+  "description": "Contains the configuration for the app",
+  "paths": {
+    "main_path":"/api/",
+    "calcularSueldoNeto": "calcularSueldoNeto",
+    "calcularSueldoBruto": "calcularSueldoBruto"
+  }
+}
