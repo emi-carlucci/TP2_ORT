@@ -2,7 +2,7 @@ const joi = require('@hapi/joi')
 
 // Calcular Sueldo Neto Class
 
-exports = function(req) {
+module.exports = function(req) {
     var result = calculateSalary(req); 
     return result;
 }
@@ -12,8 +12,9 @@ function calculateSalary(req){
     const body = req.body
 
     try {
-        if (invalidRequest(body)) {
-            throw { status: 400, descripcion: 'Request Invalido' }
+        var schema_validation = invalidRequest(body);
+        if (schema_validation != null) {
+            throw { status: 400, descripcion: 'Request Invalido', reason: schema_validation.message }   
         }
         return { status: 200, descripcion: 'Request Procesado' }
     } catch (err) {

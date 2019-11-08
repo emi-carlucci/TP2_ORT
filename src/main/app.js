@@ -1,11 +1,10 @@
 // requires
 const express = require('express')
-const _ = require('lodash')
 const config_values = require('./../config/config.json')
 
 //requires methods
-const calcularSueldoBrutoClass = require('./../methods/calcular_sueldo_bruto.js')
-const calcularSueldoNetoClass = require('./../methods/calcular_sueldo_neto.js')
+const calcularSueldoBrutoClass = require('./../methods/calcular_sueldo_bruto')
+const calcularSueldoNetoClass = require('./../methods/calcular_sueldo_neto')
 
 // initializate express component
 const app = express()
@@ -19,7 +18,7 @@ app.post(config_values.paths.main_path + config_values.paths.calcularSueldoNeto,
     console.log('Calculando Sueldo Neto: ' + req.url)
     try {
         let result = calcularSueldoNetoClass(req)
-        res.status(result.code).json(result.body)
+        res.status(result.status).json(result)
     } catch (err) {
         res.status(err.status).json(err)
     }
@@ -29,7 +28,7 @@ app.post(config_values.paths.main_path + config_values.paths.calcularSueldoBruto
     console.log('Calculando Sueldo Bruto: ' + req.url)
     try {
         let result = calcularSueldoBrutoClass(req)
-        res.status(result.code).json(result.body)
+        res.status(result.status).json(result)
     } catch (err) {
         res.status(err.status).json(err)
     }
