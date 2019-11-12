@@ -13,8 +13,12 @@ const app = express()
 app.use(express.json())
 app.set('json spaces', 4)
 
+const sueldoNetoUrl = config_values.paths.main_path + config_values.paths.calcularSueldoNeto;
+const sueldoBrutoUrl = config_values.paths.main_path + config_values.paths.calcularSueldoBruto;
+
 // methods
-app.post(config_values.paths.main_path + config_values.paths.calcularSueldoNeto, (req, res) => {
+app.post(sueldoNetoUrl, (req, res) => {
+    console.log(sueldoNetoUrl)
     console.log('Calculando Sueldo Neto: ' + req.url)
     try {
         let result = calcularSueldoNetoClass(req)
@@ -24,7 +28,7 @@ app.post(config_values.paths.main_path + config_values.paths.calcularSueldoNeto,
     }
 })
 
-app.post(config_values.paths.main_path + config_values.paths.calcularSueldoBruto, (req, res) => {
+app.post(sueldoBrutoUrl, (req, res) => {
     console.log('Calculando Sueldo Bruto: ' + req.url)
     try {
         let result = calcularSueldoBrutoClass(req)
