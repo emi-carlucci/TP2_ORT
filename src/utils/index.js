@@ -14,10 +14,23 @@ const calculoSueldoRequestValidation = async (body) => {
     }
     const { error } = joi.validate(body, schema);
     if (error != null) {
-        throw { descripcion: 'Request Invalido', reason: error.message, status: 400 }   
+        throw { descripcion: 'Request Invalido', reason: error.message, status: 400 }
     }
 }
 
+// metodo de validacion para calcular aguinaldo (SAC) y vacaciones
+const calculoSacVacRequestValidation = async (body) => {
+    const schema = {
+        sueldo: joi.number().precision(2).min(0).max(1000000000).required(),
+    }
+    const { error } = joi.validate(body, schema);
+    if (error != null) {
+        throw { descripcion: 'Request Invalido', reason: error.message, status: 400 }
+    }
+}
+
+
 module.exports = {
-    calculoSueldoRequestValidation
+    calculoSueldoRequestValidation,
+    calculoSacVacRequestValidation
 }
