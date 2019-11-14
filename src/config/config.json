@@ -5,16 +5,12 @@
   "paths": {
     "main_path": "/api",
     "calcularSueldoNeto": "/calcularSueldoNeto",
-<<<<<<< HEAD
     "calcularSueldoBruto": "/calcularSueldoBruto",
     "calcularSAC": "/calcularSAC",
     "calcularVacaciones": "/calcularVacaciones"
-=======
-    "calcularSueldoBruto": "/calcularSueldoBruto"
   },
   "response_codes": {
     "status_ok": 200,
     "status_error": 400
->>>>>>> 17a52384f7407384b5319e9e836567360fdce477
   }
 }
