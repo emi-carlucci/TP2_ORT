@@ -1,7 +1,26 @@
-// common functions
+// require
+
+//  const conexion = require("/Users/Neotel/TP/GITH/TP2_ORT/src/config/conexion")
+const conexion = require("../../config/conexion.js")
+const Descuentos = require("../../models/descuentos.js")
+
+
+
+const {Porcentaje} =  Descuentos.find({ 
+    Concepto:'Jubilacion'
+  },{Porcentaje:1,_id:0}, function callback(error, a) {
+    if(error) {
+        console.log('Concepto no encontrado')
+    }
+    console.log(a)
+      })
+  
+
+  
 
 const descuentoJubilacion = (value) => {
-    return value * 0.11
+
+           return value * Porcentaje;
 }
 
 const descuentoObraSocial = (value) => {
