@@ -1,10 +1,21 @@
 const appServices = require('../services')
 const reqValidations = require('../utils')
 
-const { calcularSueldoNeto, calcularSueldoBruto, calcularSAC, calcularVacaciones } = appServices
+const { calcularSueldoNeto, calcularSueldoBruto, calcularSAC, calcularVacaciones, obtenerStatus } = appServices
 const { calculoSueldoRequestValidation, calculoSacVacRequestValidation } = reqValidations
 
 // methods
+const getStatus = async (req, res) => {
+    console.log('Respondiendo App Status: ' + req.url)
+    try {
+        let result = await obtenerStatus()
+        res.status(result.status).json(result)
+    } catch (err) {
+        console.log(err)
+        res.status(err.status).json(err)
+    }
+}
+
 const postCalculoSueldoNeto = async (req, res) => {
     console.log('Calculando Sueldo Neto: ' + req.url)
     try {
@@ -69,5 +80,6 @@ module.exports = {
     postCalculoSueldoNeto,
     postCalculoSueldoBruto,
     postCalculoAguinaldo,
-    postCalculoVacaciones
+    postCalculoVacaciones,
+    getStatus
 }
