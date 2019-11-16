@@ -3,6 +3,8 @@ const express = require('express')
 const config_values = require('./config/config.json')
 const routes = require('./routes')
 const bodyParser = require('body-parser')
+const conexion = require("../config/conexion")
+const Descuento = require("../models/descuentos");
 
 // initializate express component
 const app = express()
