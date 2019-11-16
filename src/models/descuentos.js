@@ -3,7 +3,11 @@ let Schema= mongoose.Schema;
 
 var descuentoSchema = new Schema({
     Concepto: String,
-    Porcentaje: String
+    Porcentaje: String,
+    Creacion: {
+            type: Date,
+            default: Date.now
+    }
 
 },{versionKey:false});
 
