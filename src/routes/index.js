@@ -1,10 +1,11 @@
 const express = require('express')
 
 const config_values = require('../config/config.json')
-const { postCalculoSueldoNeto, postCalculoSueldoBruto, postCalculoAguinaldo, postCalculoVacaciones } = require('../controllers')
+const { postCalculoSueldoNeto, postCalculoSueldoBruto, postCalculoAguinaldo, postCalculoVacaciones, getStatus } = require('../controllers')
 
 const router = express.Router()
 
+router.get(config_values.paths.status, getStatus)
 router.post(config_values.paths.calcularSueldoNeto, postCalculoSueldoNeto)
 router.post(config_values.paths.calcularSueldoBruto, postCalculoSueldoBruto)
 router.post(config_values.paths.calcularSAC, postCalculoAguinaldo)

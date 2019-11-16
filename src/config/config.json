@@ -4,6 +4,7 @@
   "description": "Contains the configuration for the app",
   "paths": {
     "main_path": "/api",
+    "status": "/",
     "calcularSueldoNeto": "/calcularSueldoNeto",
     "calcularSueldoBruto": "/calcularSueldoBruto",
     "calcularSAC": "/calcularSAC",

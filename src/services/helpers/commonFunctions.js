@@ -46,6 +46,7 @@ const calculoSAC = (value) => {
 const calculoVacaciones = (value) => {
     return ((value / 30) * 14)
 }
+
 module.exports = {
     descuentoJubilacion,
     descuentoObraSocial,

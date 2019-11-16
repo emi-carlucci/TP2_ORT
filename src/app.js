@@ -18,9 +18,6 @@ const app = express()
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// status method
-app.get('/', (req, res) => res.status(200).json({ status: 'OK' }))
-
 //set routes
 app.use(config_values.paths.main_path, routes);
 
