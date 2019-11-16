@@ -7,6 +7,4 @@ mongoose.connect('mongodb+srv://sa:unpbx@cluster0-ebg2y.mongodb.net/Deducciones?
 });
 mongoose.Promise = global.Promise; 
 
-
-
 module.exports = mongoose;
