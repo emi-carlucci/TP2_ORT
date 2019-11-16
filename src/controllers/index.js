@@ -5,7 +5,7 @@ const { calcularSueldoNeto, calcularSueldoBruto, calcularSAC, calcularVacaciones
 const { calculoSueldoRequestValidation, calculoSacVacRequestValidation } = reqValidations
 
 // methods
-const postCalculoSueldoNeto = async (req, res, next) => {
+const postCalculoSueldoNeto = async (req, res) => {
     console.log('Calculando Sueldo Neto: ' + req.url)
     try {
         //request validation
@@ -20,7 +20,7 @@ const postCalculoSueldoNeto = async (req, res, next) => {
     }
 }
 
-const postCalculoSueldoBruto = async (req, res, next) => {
+const postCalculoSueldoBruto = async (req, res) => {
     console.log('Calculando Sueldo Bruto: ' + req.url)
     try {
         //request validation
@@ -35,7 +35,7 @@ const postCalculoSueldoBruto = async (req, res, next) => {
     }
 }
 
-const postCalculoAguinaldo = async (req, res, next) => {
+const postCalculoAguinaldo = async (req, res) => {
     console.log('Calculando Aguinaldo: ' + req.url)
     try {
         //request validation
@@ -50,7 +50,7 @@ const postCalculoAguinaldo = async (req, res, next) => {
     }
 }
 
-const postCalculoVacaciones = async (req, res, next) => {
+const postCalculoVacaciones = async (req, res) => {
     console.log('Calculando Vacaciones: ' + req.url)
     try {
         //request validation
@@ -64,7 +64,6 @@ const postCalculoVacaciones = async (req, res, next) => {
         res.status(err.status).json(err)
     }
 }
-
 
 module.exports = {
     postCalculoSueldoNeto,

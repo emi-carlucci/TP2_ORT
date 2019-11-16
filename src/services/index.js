@@ -21,14 +21,16 @@ const calcularSueldoNeto = async (sueldo, aporteSindicato, casado, hijos, alquil
     let discounts = sindicato + jubilacion + pami + obraSocial + ganancias;
     let result = Math.round((sueldo - discounts) * 100) / 100;
     console.log(`sueldoNetoCalculado: $ ${result}`);
-    return { sueldoBruto: Math.round(sueldo * 100) / 100,
-             descuentoJubilacion: jubilacion*-1,
-             descuentoObraSocial: obraSocial*-1,
-             descuentoPami: pami*-1,
-             descuentoSindicato: sindicato*-1,
-             descuentoGanancias: ganancias*-1,
-             sueldoNeto: result,
-             status: config_values.response_codes.status_ok }
+    return { 
+              sueldoBruto: Math.round(sueldo * 100) / 100,
+              descuentoJubilacion: jubilacion*-1,
+              descuentoObraSocial: obraSocial*-1,
+              descuentoPami: pami*-1,
+              descuentoSindicato: sindicato*-1,
+              descuentoGanancias: ganancias*-1,
+              sueldoNeto: result,
+              status: config_values.response_codes.status_ok 
+            }
   } catch(err) {
     console.log(err.message)
     throw new Error(err.message)
@@ -45,35 +47,46 @@ const calcularSueldoBruto = async (sueldo, aporteSindicato, casado, hijos, alqui
     let discounts = sindicato + jubilacion + pami + obraSocial + ganancias;
     let result = Math.round((sueldo + discounts) * 100) / 100;
     console.log(`sueldoBrutoCalculado: $ ${result}`);
-    return { sueldoNeto: Math.round(sueldo * 100) / 100,
-             descuentoJubilacion: jubilacion,
-             descuentoObraSocial: obraSocial,
-             descuentoPami: pami,
-             descuentoSindicato: sindicato,
-             descuentoGanancias: ganancias,
-             sueldoBruto: result,
-             status: config_values.response_codes.status_ok }
+    return { 
+              sueldoNeto: Math.round(sueldo * 100) / 100,
+              descuentoJubilacion: jubilacion,
+              descuentoObraSocial: obraSocial,
+              descuentoPami: pami,
+              descuentoSindicato: sindicato,
+              descuentoGanancias: ganancias,
+              sueldoBruto: result,
+              status: config_values.response_codes.status_ok 
+            }
   } catch(err) {
     console.log(err.message)
     throw new Error(err.message)
   }
 }
 
-
-const calcularSAC = async (sueldo, aporteSindicato, casado, hijos, alquilerMensual, jubilado, patagonico) => {
+const calcularSAC = async (sueldo) => {
   try {
-    let sac = calculoSAC(sueldo);
-    return { Aguinaldo: sac, status: 200 }
+    let result = calculoSAC(sueldo);
+    console.log(`sacCalculado: $ ${result}`);
+    return { 
+              aguinaldo: result, 
+              status: config_values.response_codes.status_ok 
+           }
   } catch (err) {
+    console.log(err.message)
     throw new Error(err.message)
   }
 }
 
-const calcularVacaciones = async (sueldo, aporteSindicato, casado, hijos, alquilerMensual, jubilado, patagonico) => {
+const calcularVacaciones = async (sueldo) => {
   try {
-    let sac = calculoVacaciones(sueldo);
-    return { Vaciones: sac, status: 200 }
+    let result = calculoVacaciones(sueldo);
+    console.log(`vacacionesCalculadas: $ ${result}`);
+    return { 
+              vaciones: result, 
+              status: config_values.response_codes.status_ok 
+           }
   } catch (err) {
+    console.log(err.message)
     throw new Error(err.message)
   }
 }
