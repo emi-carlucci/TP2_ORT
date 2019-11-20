@@ -3,8 +3,19 @@
   "version": "1.0",
   "description": "Contains the configuration for the app",
   "paths": {
-    "main_path":"/api/",
-    "calcularSueldoNeto": "calcularSueldoNeto",
-    "calcularSueldoBruto": "calcularSueldoBruto"
+    "main_path": "/api",
+    "status": "/",
+    "calcularSueldoNeto": "/calcularSueldoNeto",
+    "calcularSueldoBruto": "/calcularSueldoBruto",
+    "calcularSAC": "/calcularSAC",
+    "calcularVacaciones": "/calcularVacaciones"
+  },
+  "response_codes": {
+    "status_ok": 200,
+    "status_error": 400
+  },
+  "description_codes": {
+    "status_ok": "Request Procesado OK",
+    "status_error": "Request Invalido"
   }
 }
