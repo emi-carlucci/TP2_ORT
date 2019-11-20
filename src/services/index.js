@@ -10,8 +10,20 @@ const {
   calculoVacaciones
 } = require('./helpers/commonFunctions.js')
 
-//business logic 
-const calcularSueldoNeto = async (sueldo, aporteSindicato, casado, hijos, alquilerMensual, jubilado, patagonico) => {
+//business logic
+
+const obtenerStatus = async () => {
+  try {
+    return {
+      status: config_values.response_codes.status_ok
+    }
+  } catch (err) {
+    console.log(err.message)
+    throw new Error(err.message)
+  }
+}
+
+const calcularSueldoNeto = async (sueldo, aporteSindicato) => {
   try {
     let sindicato = Math.round((((aporteSindicato > 0) ? descuentoSindicato(sueldo, aporteSindicato) : 0)) * 100) / 100;
     let jubilacion = Math.round(descuentoJubilacion(sueldo) * 100) / 100;
@@ -37,7 +49,7 @@ const calcularSueldoNeto = async (sueldo, aporteSindicato, casado, hijos, alquil
   }
 }
 
-const calcularSueldoBruto = async (sueldo, aporteSindicato, casado, hijos, alquilerMensual, jubilado, patagonico) => {
+const calcularSueldoBruto = async (sueldo, aporteSindicato) => {
   try {
     let sindicato = Math.round((((aporteSindicato > 0) ? descuentoSindicato(sueldo, aporteSindicato) : 0)) * 100) / 100;
     let jubilacion = Math.round(descuentoJubilacion(sueldo) * 100) / 100;
@@ -63,21 +75,30 @@ const calcularSueldoBruto = async (sueldo, aporteSindicato, casado, hijos, alqui
   }
 }
 
-
-const calcularSAC = async (sueldo, aporteSindicato, casado, hijos, alquilerMensual, jubilado, patagonico) => {
+const calcularSAC = async (sueldo) => {
   try {
-    let sac = calculoSAC(sueldo);
-    return { Aguinaldo: sac, status: 200 }
+    let result = Math.round(calculoSAC(sueldo) * 100) / 100;
+    console.log(`sacCalculado: $ ${result}`);
+    return {
+      aguinaldo: result,
+      status: config_values.response_codes.status_ok
+    }
   } catch (err) {
+    console.log(err.message)
     throw new Error(err.message)
   }
 }
 
-const calcularVacaciones = async (sueldo, aporteSindicato, casado, hijos, alquilerMensual, jubilado, patagonico) => {
+const calcularVacaciones = async (sueldo) => {
   try {
-    let sac = calculoVacaciones(sueldo);
-    return { Vaciones: sac, status: 200 }
+    let result = Math.round(calculoVacaciones(sueldo) * 100) / 100;
+    console.log(`vacacionesCalculadas: $ ${result}`);
+    return {
+      vaciones: result,
+      status: config_values.response_codes.status_ok
+    }
   } catch (err) {
+    console.log(err.message)
     throw new Error(err.message)
   }
 }
@@ -87,4 +108,5 @@ module.exports = {
   calcularSueldoBruto,
   calcularSAC,
   calcularVacaciones,
+  obtenerStatus
 }
