@@ -14,10 +14,10 @@ const {
 
 const obtenerStatus = async () => {
   try {
-    return { 
-              status: config_values.response_codes.status_ok 
-           }
-  } catch(err) {
+    return {
+      status: config_values.response_codes.status_ok
+    }
+  } catch (err) {
     console.log(err.message)
     throw new Error(err.message)
   }
@@ -49,17 +49,17 @@ const calcularSueldoNeto = async (sueldo, aporteSindicato) => {
     let discounts = sindicato + jubilacion + pami + obraSocial + ganancias;
     let result = Math.round((sueldo - discounts) * 100) / 100;
     console.log(`sueldoNetoCalculado: $ ${result}`);
-    return { 
-              sueldoBruto: Math.round(sueldo * 100) / 100,
-              descuentoJubilacion: jubilacion*-1,
-              descuentoObraSocial: obraSocial*-1,
-              descuentoPami: pami*-1,
-              descuentoSindicato: sindicato*-1,
-              descuentoGanancias: ganancias*-1,
-              sueldoNeto: result,
-              status: config_values.response_codes.status_ok 
-            }
-  } catch(err) {
+    return {
+      sueldoBruto: Math.round(sueldo * 100) / 100,
+      descuentoJubilacion: jubilacion * -1,
+      descuentoObraSocial: obraSocial * -1,
+      descuentoPami: pami * -1,
+      descuentoSindicato: sindicato * -1,
+      descuentoGanancias: ganancias * -1,
+      sueldoNeto: result,
+      status: config_values.response_codes.status_ok
+    }
+  } catch (err) {
     console.log(err.message)
     throw new Error(err.message)
   }
@@ -75,17 +75,17 @@ const calcularSueldoBruto = async (sueldo, aporteSindicato) => {
     let discounts = sindicato + jubilacion + pami + obraSocial + ganancias;
     let result = Math.round((sueldo + discounts) * 100) / 100;
     console.log(`sueldoBrutoCalculado: $ ${result}`);
-    return { 
-              sueldoNeto: Math.round(sueldo * 100) / 100,
-              descuentoJubilacion: jubilacion,
-              descuentoObraSocial: obraSocial,
-              descuentoPami: pami,
-              descuentoSindicato: sindicato,
-              descuentoGanancias: ganancias,
-              sueldoBruto: result,
-              status: config_values.response_codes.status_ok 
-            }
-  } catch(err) {
+    return {
+      sueldoNeto: Math.round(sueldo * 100) / 100,
+      descuentoJubilacion: jubilacion,
+      descuentoObraSocial: obraSocial,
+      descuentoPami: pami,
+      descuentoSindicato: sindicato,
+      descuentoGanancias: ganancias,
+      sueldoBruto: result,
+      status: config_values.response_codes.status_ok
+    }
+  } catch (err) {
     console.log(err.message)
     throw new Error(err.message)
   }
@@ -95,10 +95,10 @@ const calcularSAC = async (sueldo) => {
   try {
     let result = Math.round(calculoSAC(sueldo) * 100) / 100;
     console.log(`sacCalculado: $ ${result}`);
-    return { 
-              aguinaldo: result, 
-              status: config_values.response_codes.status_ok 
-           }
+    return {
+      aguinaldo: result,
+      status: config_values.response_codes.status_ok
+    }
   } catch (err) {
     console.log(err.message)
     throw new Error(err.message)
@@ -109,10 +109,10 @@ const calcularVacaciones = async (sueldo) => {
   try {
     let result = Math.round(calculoVacaciones(sueldo) * 100) / 100;
     console.log(`vacacionesCalculadas: $ ${result}`);
-    return { 
-              vaciones: result, 
-              status: config_values.response_codes.status_ok 
-           }
+    return {
+      vaciones: result,
+      status: config_values.response_codes.status_ok
+    }
   } catch (err) {
     console.log(err.message)
     throw new Error(err.message)
