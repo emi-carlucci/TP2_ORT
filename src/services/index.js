@@ -1,4 +1,3 @@
-const { appDb } = require('../db')
 const config_values = require('../config/config.json')
 const {
   descuentoJubilacion,
@@ -7,7 +6,8 @@ const {
   descuentoSindicato,
   descuentoIIGG,
   calculoSAC,
-  calculoVacaciones
+  calculoVacaciones,
+  validacionLogin
 } = require('./helpers/commonFunctions.js')
 
 //business logic
@@ -17,6 +17,22 @@ const obtenerStatus = async () => {
     return { 
               status: config_values.response_codes.status_ok 
            }
+  } catch(err) {
+    console.log(err.message)
+    throw new Error(err.message)
+  }
+}
+
+const login = async (usuario, contrasena) => {
+  try {
+    let result = await validacionLogin(usuario, contrasena)
+    console.log(result)
+    console.log(`Usuario: ${usuario} logueado exitosamente`);
+    return { 
+      loginStatus: "OK",
+      usuario: usuario,
+      status: config_values.response_codes.status_ok 
+    }
   } catch(err) {
     console.log(err.message)
     throw new Error(err.message)
@@ -108,5 +124,6 @@ module.exports = {
   calcularSueldoBruto,
   calcularSAC,
   calcularVacaciones,
-  obtenerStatus
+  obtenerStatus,
+  login
 }

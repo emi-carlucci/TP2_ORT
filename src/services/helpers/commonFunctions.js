@@ -1,10 +1,6 @@
 // require
-
-//  const conexion = require("/Users/Neotel/TP/GITH/TP2_ORT/src/config/conexion")
-const conexion = require("../../config/conexion.js")
 const Descuentos = require("../../models/descuentos.js")
-
-
+const Usuarios = require("../../models/descuentos.js")
 
 const {Porcentaje} =  Descuentos.find({ 
     Concepto:'Jubilacion'
@@ -14,13 +10,25 @@ const {Porcentaje} =  Descuentos.find({
     }
     console.log(a)
       })
-  
 
-  
+const validacionLogin = (usuario, contrasena) => {
+
+    result = Usuarios.find({ email: usuario, password: contrasena, active: true}, function (err, docs) {
+        if(err){
+            throw new Error(err.message)
+        }
+        else{
+            return docs
+        }
+    });
+
+    return result
+
+}
 
 const descuentoJubilacion = (value) => {
 
-           return value * Porcentaje;
+    return value * Porcentaje;
 }
 
 const descuentoObraSocial = (value) => {
@@ -54,5 +62,6 @@ module.exports = {
     descuentoSindicato,
     descuentoIIGG,
     calculoSAC,
-    calculoVacaciones
+    calculoVacaciones,
+    validacionLogin
 }

@@ -11,8 +11,6 @@ var descuentoSchema = new Schema({
 
 },{versionKey:false});
 
-var Descuento = mongoose.model('Descuentos',descuentoSchema);
-
-
+var Descuento = mongoose.model('Descuentos', descuentoSchema);
 
 module.exports = Descuento;

@@ -5,6 +5,7 @@
   "paths": {
     "main_path": "/api",
     "status": "/",
+    "login": "/login",
     "calcularSueldoNeto": "/calcularSueldoNeto",
     "calcularSueldoBruto": "/calcularSueldoBruto",
     "calcularSAC": "/calcularSAC",
