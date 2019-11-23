@@ -1,15 +1,16 @@
 // require
 const Descuentos = require("../../models/descuentos.js")
-const Usuarios = require("../../models/descuentos.js")
+const Usuarios = require("../../models/usuarios.js")
 
-const {Porcentaje} =  Descuentos.find({ 
-    Concepto:'Jubilacion'
-  },{Porcentaje:1,_id:0}, function callback(error, a) {
-    if(error) {
-        console.log('Concepto no encontrado')
-    }
-    console.log(a)
-      })
+// const {Porcentaje} =  Descuentos.find({ 
+//     Concepto:'Jubilacion'
+//   },{Porcentaje:1,_id:0}, function callback(error, a) {
+//     if(error) {
+//         console.log('Concepto no encontrado')
+//     }
+//     console.log(a)
+    
+//       })
 
 const validacionLogin = (usuario, contrasena) => {
 
@@ -26,17 +27,36 @@ const validacionLogin = (usuario, contrasena) => {
 
 }
 
-const descuentoJubilacion = (value) => {
+const descuentoJubilacion = (value,desc) => {
 
-    return value * Porcentaje;
+    Descuentos.findOne({Concepto: desc},(err,conc)=>{
+        if(err) return console.log(`Concepto no encontrado, error: ${err}`)
+
+        return value * conc.Porcentaje
+
+    })
+
 }
 
-const descuentoObraSocial = (value) => {
-    return value * 0.03
+const descuentoObraSocial = (value,desc) => {
+    Descuentos.findOne({Concepto: desc},(err,conc)=>{
+        if(err) return console.log(`Concepto no encontrado, error: ${err}`)
+
+        return value * conc.Porcentaje
+
+    })
 }
 
-const descuentoPAMI = (value) => {
-    return value * 0.03
+const descuentoPAMI = (value,desc) => {
+    
+    Descuentos.findOne({Concepto: desc},(err,conc)=>{
+        if(err) return console.log(`Concepto no encontrado, error: ${err}`)
+
+        return value * conc.Porcentaje
+
+    })
+
+
 }
 
 const descuentoSindicato = (value, percentage) => {

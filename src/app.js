@@ -8,9 +8,6 @@ const conexion = require("./config/conexion.js")
 const Descuentos = require("./models/descuentos.js")
 
 
-
-
-
 // initializate express component
 const app = express()
 
