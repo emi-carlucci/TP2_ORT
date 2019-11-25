@@ -28,12 +28,12 @@ const login = async (usuario, contrasena) => {
     let result = await validacionLogin(usuario, contrasena)
     console.log(result)
     console.log(`Usuario: ${usuario} logueado exitosamente`);
-    return { 
+    return {
       loginStatus: "OK",
       usuario: usuario,
-      status: config_values.response_codes.status_ok 
+      status: config_values.response_codes.status_ok
     }
-  } catch(err) {
+  } catch (err) {
     console.log(err.message)
     throw new Error(err.message)
   }
@@ -110,7 +110,7 @@ const calcularVacaciones = async (sueldo) => {
     let result = Math.round(calculoVacaciones(sueldo) * 100) / 100;
     console.log(`vacacionesCalculadas: $ ${result}`);
     return {
-      vaciones: result,
+      vacaciones: result,
       status: config_values.response_codes.status_ok
     }
   } catch (err) {
