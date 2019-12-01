@@ -13,10 +13,21 @@
   },
   "response_codes": {
     "status_ok": 200,
-    "status_error": 400
+    "status_error": 400,
+    "unauthorized_error": 401
   },
   "description_codes": {
     "status_ok": "Request Procesado OK",
     "status_error": "Request Invalido"
+  },
+  "data_base_config": {
+    "connection_string": "mongodb+srv://sa:unpbx@cluster0-ebg2y.mongodb.net/Deducciones?retryWrites=true&w=majority",
+    "successfull_connection_msg": "Conexion BD Exitosa",
+    "error_connection_msg": "Conexion BD Fallida"
+  },
+  "discounts_concepts": {
+    "jubilation": "Jubilacion",
+    "pami": "Pami",
+    "insurance": "Obra Social"
   }
 }

@@ -1,50 +1,36 @@
 const config_values = require('../config/config.json')
-const {
-  descuentoJubilacion,
-  descuentoObraSocial,
-  descuentoPAMI,
-  descuentoSindicato,
-  descuentoIIGG,
-  calculoSAC,
-  calculoVacaciones,
-  validacionLogin
-} = require('./helpers/commonFunctions.js')
-
-//business logic
+const { descuentoSindicato, descuentoIIGG, calculoSAC, calculoVacaciones, validacionLogin, obtenerDescuentos } = require('./helpers/commonFunctions.js')
 
 const obtenerStatus = async () => {
   try {
     return {
       status: config_values.response_codes.status_ok
     }
-  } catch (err) {
-    console.log(err.message)
-    throw new Error(err.message)
+  } catch (error) {
+      throw { descripcion: config_values.description_codes.status_error, reason: error.message, status: config_values.response_codes.status_error }
   }
 }
 
 const login = async (usuario, contrasena) => {
   try {
-    let result = await validacionLogin(usuario, contrasena)
-    console.log(result)
-    console.log(`Usuario: ${usuario} logueado exitosamente`);
+    let result = await validacionLogin(usuario, contrasena);
+    console.log(`Usuario: ${result} Logueado Exitosamente`);
     return {
       loginStatus: "OK",
-      usuario: usuario,
+      usuario: result,
       status: config_values.response_codes.status_ok
     }
-  } catch (err) {
-    console.log(err.message)
-    throw new Error(err.message)
+  } catch (error) {
+      throw { descripcion: config_values.description_codes.status_error, reason: error.message, status: config_values.response_codes.status_error }
   }
 }
 
 const calcularSueldoNeto = async (sueldo, aporteSindicato) => {
   try {
     let sindicato = Math.round((((aporteSindicato > 0) ? descuentoSindicato(sueldo, aporteSindicato) : 0)) * 100) / 100;
-    let jubilacion = Math.round(descuentoJubilacion(sueldo) * 100) / 100;
-    let pami = Math.round((descuentoPAMI(sueldo)) * 100) / 100;
-    let obraSocial = Math.round((descuentoObraSocial(sueldo)) * 100) / 100;
+    let jubilacion = Math.round(await obtenerDescuentos(sueldo, config_values.discounts_concepts.jubilation) * 100) / 100;
+    let pami = Math.round((await obtenerDescuentos(sueldo, config_values.discounts_concepts.pami)) * 100) / 100;
+    let obraSocial = Math.round((await obtenerDescuentos(sueldo, config_values.discounts_concepts.insurance)) * 100) / 100;
     let ganancias = Math.round((descuentoIIGG(sueldo)) * 100) / 100;
     let discounts = sindicato + jubilacion + pami + obraSocial + ganancias;
     let result = Math.round((sueldo - discounts) * 100) / 100;
@@ -59,18 +45,17 @@ const calcularSueldoNeto = async (sueldo, aporteSindicato) => {
       sueldoNeto: result,
       status: config_values.response_codes.status_ok
     }
-  } catch (err) {
-    console.log(err.message)
-    throw new Error(err.message)
+  } catch (error) {
+      throw { descripcion: config_values.description_codes.status_error, reason: error.message, status: config_values.response_codes.status_error }
   }
 }
 
 const calcularSueldoBruto = async (sueldo, aporteSindicato) => {
   try {
     let sindicato = Math.round((((aporteSindicato > 0) ? descuentoSindicato(sueldo, aporteSindicato) : 0)) * 100) / 100;
-    let jubilacion = Math.round(descuentoJubilacion(sueldo) * 100) / 100;
-    let pami = Math.round((descuentoPAMI(sueldo)) * 100) / 100;
-    let obraSocial = Math.round((descuentoObraSocial(sueldo)) * 100) / 100;
+    let jubilacion = Math.round(await obtenerDescuentos(sueldo, config_values.discounts_concepts.jubilation) * 100) / 100;
+    let pami = Math.round((await obtenerDescuentos(sueldo, config_values.discounts_concepts.pami)) * 100) / 100;
+    let obraSocial = Math.round((await obtenerDescuentos(sueldo, config_values.discounts_concepts.insurance)) * 100) / 100;
     let ganancias = Math.round((descuentoIIGG(sueldo)) * 100) / 100;
     let discounts = sindicato + jubilacion + pami + obraSocial + ganancias;
     let result = Math.round((sueldo + discounts) * 100) / 100;
@@ -85,9 +70,8 @@ const calcularSueldoBruto = async (sueldo, aporteSindicato) => {
       sueldoBruto: result,
       status: config_values.response_codes.status_ok
     }
-  } catch (err) {
-    console.log(err.message)
-    throw new Error(err.message)
+  } catch (error) {
+      throw { descripcion: config_values.description_codes.status_error, reason: error.message, status: config_values.response_codes.status_error }
   }
 }
 
@@ -99,9 +83,8 @@ const calcularSAC = async (sueldo) => {
       aguinaldo: result,
       status: config_values.response_codes.status_ok
     }
-  } catch (err) {
-    console.log(err.message)
-    throw new Error(err.message)
+  } catch (error) {
+      throw { descripcion: config_values.description_codes.status_error, reason: error.message, status: config_values.response_codes.status_error }
   }
 }
 
@@ -113,9 +96,8 @@ const calcularVacaciones = async (sueldo) => {
       vacaciones: result,
       status: config_values.response_codes.status_ok
     }
-  } catch (err) {
-    console.log(err.message)
-    throw new Error(err.message)
+  } catch (error) {
+      throw { descripcion: config_values.description_codes.status_error, reason: error.message, status: config_values.response_codes.status_error }
   }
 }
 

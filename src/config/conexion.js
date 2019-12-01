@@ -1,10 +1,14 @@
 const mongoose = require('mongoose');
+const config_values = require('./config.json')
 
-mongoose.connect('mongodb+srv://sa:unpbx@cluster0-ebg2y.mongodb.net/Deducciones?retryWrites=true&w=majority', function(err){
-	if(err) throw err;
-	console.log('Conexión a bd correcta.')
+mongoose.connect(config_values.data_base_config.connection_string, { useNewUrlParser: true, useUnifiedTopology: true });
 
+const db = mongoose.connection;
+db.on('error', () => {
+    console.log(config_values.data_base_config.error_connection_msg);
 });
-mongoose.Promise = global.Promise; 
+db.once('open', () => {
+    console.log(config_values.data_base_config.successfull_connection_msg);
+});
 
 module.exports = mongoose;

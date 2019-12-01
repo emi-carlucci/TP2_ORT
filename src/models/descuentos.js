@@ -1,16 +1,14 @@
-const mongoose = require('mongoose');
-let Schema= mongoose.Schema;
+const mongoose = require("../config/conexion.js")
 
-var descuentoSchema = new Schema({
-    Concepto: String,
-    Porcentaje: String,
-    Creacion: {
-            type: Date,
-            default: Date.now
-    }
+const schema = {
+    concepto: { type: mongoose.SchemaTypes.String, required: true },
+    porcentaje: { type: mongoose.SchemaTypes.String, required: true }
+};
 
-},{versionKey:false});
+const collectionName = 'descuentos';
 
-var Descuento = mongoose.model('Descuentos', descuentoSchema);
+const discountSchema = mongoose.Schema(schema);
 
-module.exports = Descuento;
+const Discounts = mongoose.model(collectionName, discountSchema);
+
+module.exports = Discounts;

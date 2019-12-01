@@ -1,14 +1,17 @@
-const mongoose = require('mongoose');
-let Schema= mongoose.Schema;
+const mongoose = require("../config/conexion.js")
 
-var userSchema = new Schema({
-    name: String,
-    surname: String,
-    email: String,
-    password: String, 
-    active: Boolean
-},{versionKey:false});
+const schema = {
+    name: { type: mongoose.SchemaTypes.String, required: true },
+    surname: { type: mongoose.SchemaTypes.String, required: true },
+    email: { type: mongoose.SchemaTypes.String, required: true },
+    password: { type: mongoose.SchemaTypes.String, required: true },
+    active: { type: mongoose.SchemaTypes.Boolean, required: true }
+};
 
-var user = mongoose.model('Users', userSchema);
+const collectionName = 'users';
 
-module.exports = user;
+const userSchema = mongoose.Schema(schema);
+
+const Users = mongoose.model(collectionName, userSchema);
+
+module.exports = Users;

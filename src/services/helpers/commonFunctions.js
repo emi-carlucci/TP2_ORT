@@ -1,61 +1,39 @@
-// require
-const Descuentos = require("../../models/descuentos.js")
-const Usuarios = require("../../models/usuarios.js")
+const Discounts = require("../../models/descuentos.js")
+const Users = require("../../models/usuarios.js")
 
-// const {Porcentaje} =  Descuentos.find({ 
-//     Concepto:'Jubilacion'
-//   },{Porcentaje:1,_id:0}, function callback(error, a) {
-//     if(error) {
-//         console.log('Concepto no encontrado')
-//     }
-//     console.log(a)
-    
-//       })
+const validacionLogin = async (usuario, contrasena) => {
 
-const validacionLogin = (usuario, contrasena) => {
-
-    result = Usuarios.find({ email: usuario, password: contrasena, active: true}, function (err, docs) {
-        if(err){
-            throw new Error(err.message)
+    result = await Users.findOne({ email: usuario, password: contrasena, active: true}).exec()
+    .then(user => { 
+        if (user === null){ 
+            throw new Error('Usuario Inexistente') 
         }
-        else{
-            return docs
-        }
+        return user.email;
+    })
+    .catch(error => {
+        throw new Error(error.message)
     });
-
-    return result
-
-}
-
-const descuentoJubilacion = (value,desc) => {
-
-    Descuentos.findOne({Concepto: desc},(err,conc)=>{
-        if(err) return console.log(`Concepto no encontrado, error: ${err}`)
-
-        return value * conc.Porcentaje
-
-    })
+    return result;
 
 }
 
-const descuentoObraSocial = (value,desc) => {
-    Descuentos.findOne({Concepto: desc},(err,conc)=>{
-        if(err) return console.log(`Concepto no encontrado, error: ${err}`)
+const obtenerDescuentos = async (value, desc) => {
 
-        return value * conc.Porcentaje
-
+    result = await Discounts.findOne( {concepto: desc} ).exec()
+    .then(concept => { 
+        if (concept === null){ 
+            throw new Error(`Concepto '${desc}' Inexistente`) 
+        }
+        if (concept.porcentaje === null || isNaN(concept.porcentaje)){ 
+            throw new Error(`El Concepto '${desc}' contiene un Porcentaje Invalido`) 
+        }
+        console.log(`Concepto: '${desc}' Encontrado`);
+        return value * concept.porcentaje;
     })
-}
-
-const descuentoPAMI = (value,desc) => {
-    
-    Descuentos.findOne({Concepto: desc},(err,conc)=>{
-        if(err) return console.log(`Concepto no encontrado, error: ${err}`)
-
-        return value * conc.Porcentaje
-
-    })
-
+    .catch(error => {
+        throw new Error(error.message)
+    });
+    return result;
 
 }
 
@@ -76,9 +54,7 @@ const calculoVacaciones = (value) => {
 }
 
 module.exports = {
-    descuentoJubilacion,
-    descuentoObraSocial,
-    descuentoPAMI,
+    obtenerDescuentos,
     descuentoSindicato,
     descuentoIIGG,
     calculoSAC,
