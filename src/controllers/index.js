@@ -53,7 +53,7 @@ const postCalculoSueldoBruto = async (req, res) => {
         await calculoSueldoRequestValidation(req.body)
         //destructuring request
         const { sueldo, aporteSindicato, casado, hijos, alquilerMensual, jubilado, patagonico } = req.body
-        let result = await calcularSueldoBruto(sueldo, aporteSindicato, casado, hijos, alquilerMensual, jubilado, patagonico)
+        let result = await calcularSueldoBruto(sueldo, aporteSindicato)//, casado, hijos, alquilerMensual, jubilado, patagonico)
         res.status(result.status).json(result)
     } catch (err) {
         console.log(err)
