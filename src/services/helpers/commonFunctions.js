@@ -9,9 +9,10 @@ const validacionLogin = async (usuario, contrasena) => {
     result = await Users.findOne({ email: usuario, password: contrasena, active: true}).exec()
     .then(user => { 
         if (user === null){ 
-            throw new Error('Usuario Inexistente') 
+            throw new Error('Usuario o Contrasena Invalidos') 
         }
-        return user.email;
+        autoGenToken = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        return { usuario: user.email, accessToken: autoGenToken };
     })
     .catch(error => {
         throw new Error(error.message)
@@ -52,6 +53,28 @@ const obtenerDescuentos = async (value, contributions, desc) => {
 
 }
 
+const obtenerBruto = async (value) => {
+
+    let result;
+
+    result = await Discounts.findOne( {concepto: config_values.discounts_concepts.raw_salary} ).exec()
+    .then(concept => { 
+        if (concept === null){ 
+            throw new Error(`Concepto '${config_values.discounts_concepts.raw_salary}' Inexistente`) 
+        }
+        if (concept.porcentaje === null || isNaN(concept.porcentaje)){ 
+            throw new Error(`El Concepto '${config_values.discounts_concepts.raw_salary}' contiene un Porcentaje Invalido`) 
+        }
+        console.log(`Concepto: '${config_values.discounts_concepts.raw_salary}' Encontrado`);
+        return value * concept.porcentaje;
+    })
+    .catch(error => {
+        throw new Error(error.message)
+    });
+    return result;
+
+}
+
 const calculoSAC = (value) => {
     return (value / 2)
 }
@@ -64,5 +87,6 @@ module.exports = {
     obtenerDescuentos,
     calculoSAC,
     calculoVacaciones,
-    validacionLogin
+    validacionLogin,
+    obtenerBruto
 }

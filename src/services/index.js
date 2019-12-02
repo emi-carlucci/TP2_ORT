@@ -1,5 +1,5 @@
 const config_values = require('../config/config.json')
-const { calculoSAC, calculoVacaciones, validacionLogin, obtenerDescuentos } = require('./helpers/commonFunctions.js')
+const { calculoSAC, calculoVacaciones, validacionLogin, obtenerDescuentos, obtenerBruto } = require('./helpers/commonFunctions.js')
 
 const obtenerStatus = async () => {
   try {
@@ -14,10 +14,11 @@ const obtenerStatus = async () => {
 const login = async (usuario, contrasena) => {
   try {
     let result = await validacionLogin(usuario, contrasena);
-    console.log(`Usuario: ${result} Logueado Exitosamente`);
+    console.log(`Usuario: ${result.usuario} Logueado Exitosamente`);
     return {
       loginStatus: "OK",
-      usuario: result,
+      usuario: result.usuario,
+      accessToken: result.accessToken,
       status: config_values.response_codes.status_ok
     }
   } catch (error) {
@@ -52,12 +53,13 @@ const calcularSueldoNeto = async (sueldo, aporteSindicato) => {
 
 const calcularSueldoBruto = async (sueldo, aporteSindicato) => {
   try {
-    let sindicato = Math.round(await obtenerDescuentos(sueldo, aporteSindicato, config_values.discounts_concepts.labor_union) * 100) / 100;
-    let jubilacion = Math.round(await obtenerDescuentos(sueldo, aporteSindicato, config_values.discounts_concepts.jubilation) * 100) / 100;
-    let pami = Math.round(await obtenerDescuentos(sueldo, aporteSindicato, config_values.discounts_concepts.pami) * 100) / 100;
-    let obraSocial = Math.round(await obtenerDescuentos(sueldo, aporteSindicato, config_values.discounts_concepts.insurance) * 100) / 100;
-    let discounts = sindicato + jubilacion + pami + obraSocial;
-    let result = Math.round((sueldo + discounts) * 100) / 100;
+    let bruto = await obtenerBruto(sueldo);
+    let sindicato = Math.round(await obtenerDescuentos(bruto, aporteSindicato, config_values.discounts_concepts.labor_union) * 100) / 100;
+    let jubilacion = Math.round(await obtenerDescuentos(bruto, aporteSindicato, config_values.discounts_concepts.jubilation) * 100) / 100;
+    let pami = Math.round(await obtenerDescuentos(bruto, aporteSindicato, config_values.discounts_concepts.pami) * 100) / 100;
+    let obraSocial = Math.round(await obtenerDescuentos(bruto, aporteSindicato, config_values.discounts_concepts.insurance) * 100) / 100;
+    let discounts = sindicato;  
+    let result = ((discounts > 0) ? (Math.round(((bruto + discounts) * 1.0046) * 100) / 100) : (Math.round((bruto + discounts) * 100) / 100));
     console.log(`sueldoBrutoCalculado: $ ${result}`);
     return {
       sueldoNeto: Math.round(sueldo * 100) / 100,

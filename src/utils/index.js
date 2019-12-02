@@ -17,7 +17,7 @@ const loginRequestValidation = async (body) => {
 const calculoSueldoRequestValidation = async (body) => {
     const schema = {
         sueldo: joi.number().precision(2).min(0).max(1000000000).required(),
-        aporteSindicato: joi.number().precision(2).min(0).max(100).required(),
+        aporteSindicato: joi.number().precision(2).min(0).max(9).required(),
     }
     const { error } = joi.validate(body, schema);
     if (error != null) {
