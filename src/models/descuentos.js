@@ -2,7 +2,8 @@ const mongoose = require("../config/conexion.js")
 
 const schema = {
     concepto: { type: mongoose.SchemaTypes.String, required: true },
-    porcentaje: { type: mongoose.SchemaTypes.String, required: true }
+    porcentaje: { type: mongoose.SchemaTypes.Decimal128, required: true },
+    minimo: { type: mongoose.SchemaTypes.Decimal128, required: false }
 };
 
 const collectionName = 'descuentos';

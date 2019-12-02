@@ -1,7 +1,10 @@
 const Discounts = require("../../models/descuentos.js")
 const Users = require("../../models/usuarios.js")
+const config_values = require('../../config/config.json')
 
 const validacionLogin = async (usuario, contrasena) => {
+
+    let result;
 
     result = await Users.findOne({ email: usuario, password: contrasena, active: true}).exec()
     .then(user => { 
@@ -17,32 +20,36 @@ const validacionLogin = async (usuario, contrasena) => {
 
 }
 
-const obtenerDescuentos = async (value, desc) => {
+const obtenerDescuentos = async (value, contributions, desc) => {
 
-    result = await Discounts.findOne( {concepto: desc} ).exec()
-    .then(concept => { 
-        if (concept === null){ 
-            throw new Error(`Concepto '${desc}' Inexistente`) 
-        }
-        if (concept.porcentaje === null || isNaN(concept.porcentaje)){ 
-            throw new Error(`El Concepto '${desc}' contiene un Porcentaje Invalido`) 
-        }
-        console.log(`Concepto: '${desc}' Encontrado`);
-        return value * concept.porcentaje;
-    })
-    .catch(error => {
-        throw new Error(error.message)
-    });
+    let result;
+
+    if (desc == config_values.discounts_concepts.labor_union){
+        result = ((contributions > 0) ? (value * (contributions / 100)) : 0);
+    } 
+    else {
+        result = await Discounts.findOne( {concepto: desc} ).exec()
+        .then(concept => { 
+            if (concept === null){ 
+                throw new Error(`Concepto '${desc}' Inexistente`) 
+            }
+            if (concept.porcentaje === null || isNaN(concept.porcentaje)){ 
+                throw new Error(`El Concepto '${desc}' contiene un Porcentaje Invalido`) 
+            }
+            console.log(`Concepto: '${desc}' Encontrado`);
+            if (desc == config_values.discounts_concepts.iigg){
+                return ((value >= concept.minimo) ? value * concept.porcentaje : 0);
+            } 
+            else {
+                return value * concept.porcentaje;
+            }  
+        })
+        .catch(error => {
+            throw new Error(error.message)
+        });
+    }
     return result;
 
-}
-
-const descuentoSindicato = (value, percentage) => {
-    return value * (percentage / 100)
-}
-
-const descuentoIIGG = (value) => {
-    return ((value >= 77624) ? value * 0.035 : 0)
 }
 
 const calculoSAC = (value) => {
@@ -55,8 +62,6 @@ const calculoVacaciones = (value) => {
 
 module.exports = {
     obtenerDescuentos,
-    descuentoSindicato,
-    descuentoIIGG,
     calculoSAC,
     calculoVacaciones,
     validacionLogin
