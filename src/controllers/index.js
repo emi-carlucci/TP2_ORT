@@ -37,8 +37,8 @@ const postCalculoSueldoNeto = async (req, res) => {
         //request validation
         await calculoSueldoRequestValidation(req.body)
         //destructuring request
-        const { sueldo, aporteSindicato, casado, hijos, alquilerMensual, jubilado, patagonico } = req.body
-        let result = await calcularSueldoNeto(sueldo, aporteSindicato, casado, hijos, alquilerMensual, jubilado, patagonico)
+        const { sueldo, aporteSindicato } = req.body
+        let result = await calcularSueldoNeto(sueldo, aporteSindicato)
         res.status(result.status).json(result)
     } catch (err) {
         console.log(err)
@@ -52,8 +52,8 @@ const postCalculoSueldoBruto = async (req, res) => {
         //request validation
         await calculoSueldoRequestValidation(req.body)
         //destructuring request
-        const { sueldo, aporteSindicato, casado, hijos, alquilerMensual, jubilado, patagonico } = req.body
-        let result = await calcularSueldoBruto(sueldo, aporteSindicato)//, casado, hijos, alquilerMensual, jubilado, patagonico)
+        const { sueldo, aporteSindicato } = req.body
+        let result = await calcularSueldoBruto(sueldo, aporteSindicato)
         res.status(result.status).json(result)
     } catch (err) {
         console.log(err)

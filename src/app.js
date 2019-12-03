@@ -1,12 +1,8 @@
 // require
-var mongoose = require('mongoose');
 const express = require('express')
 const config_values = require('./config/config.json')
 const routes = require('./routes')
 const bodyParser = require('body-parser')
-const conexion = require("./config/conexion.js")
-const Descuentos = require("./models/descuentos.js")
-
 
 // initializate express component
 const app = express()
@@ -23,8 +19,4 @@ const puerto = 8080
 app.listen(puerto, () => {
     console.log(`Salary App Running on Port: ${puerto}`)
 })
-
-module.exports = {
-    app
-}
 
