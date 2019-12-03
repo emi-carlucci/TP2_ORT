@@ -2,7 +2,7 @@ const appServices = require('../services')
 const reqValidations = require('../utils')
 
 const { calcularSueldoNeto, calcularSueldoBruto, calcularSAC, calcularVacaciones, obtenerStatus, login} = appServices
-const { calculoSueldoRequestValidation, calculoSacVacRequestValidation, loginRequestValidation } = reqValidations
+const { calculoSueldoRequestValidation, calculoSacVacRequestValidation, loginRequestValidation, tokenValidation } = reqValidations
 
 // methods
 const getStatus = async (req, res) => {
@@ -36,6 +36,8 @@ const postCalculoSueldoNeto = async (req, res) => {
     try {
         //request validation
         await calculoSueldoRequestValidation(req.body)
+        //token validation
+        await tokenValidation(req.headers)
         //destructuring request
         const { sueldo, aporteSindicato } = req.body
         let result = await calcularSueldoNeto(sueldo, aporteSindicato)
@@ -51,6 +53,8 @@ const postCalculoSueldoBruto = async (req, res) => {
     try {
         //request validation
         await calculoSueldoRequestValidation(req.body)
+        //token validation
+        await tokenValidation(req.headers)
         //destructuring request
         const { sueldo, aporteSindicato } = req.body
         let result = await calcularSueldoBruto(sueldo, aporteSindicato)
@@ -66,6 +70,8 @@ const postCalculoAguinaldo = async (req, res) => {
     try {
         //request validation
         await calculoSacVacRequestValidation(req.body)
+        //token validation
+        await tokenValidation(req.headers)
         //destructuring request
         const { sueldo } = req.body
         let result = await calcularSAC(sueldo)
@@ -81,6 +87,8 @@ const postCalculoVacaciones = async (req, res) => {
     try {
         //request validation
         await calculoSacVacRequestValidation(req.body)
+        //token validation
+        await tokenValidation(req.headers)
         //destructuring request
         const { sueldo } = req.body
         let result = await calcularVacaciones(sueldo)

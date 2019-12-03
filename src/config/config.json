@@ -32,5 +32,9 @@
     "iigg": "IIGG",
     "labor_union": "Sindicato",
     "raw_salary": "Sueldo Bruto"
+  },
+  "security": {
+    "access_token_ttl": 15,
+    "token_validation_enable": true
   }
 }
