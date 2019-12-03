@@ -1,5 +1,6 @@
 const Discounts = require("../../models/descuentos.js")
 const Users = require("../../models/usuarios.js")
+const Tokens = require("../../models/tokens.js")
 const config_values = require('../../config/config.json')
 
 const validacionLogin = async (usuario, contrasena) => {
@@ -7,11 +8,13 @@ const validacionLogin = async (usuario, contrasena) => {
     let result;
 
     result = await Users.findOne({ email: usuario, password: contrasena, active: true}).exec()
-    .then(user => { 
+    .then(async user => { 
         if (user === null){ 
             throw new Error('Usuario o Contrasena Invalidos') 
         }
         autoGenToken = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        await Tokens.create({ access_token: autoGenToken, date: Date.now() });
+        console.log(`Sesion '${autoGenToken}' generada para usuario '${usuario}'`)
         return { usuario: user.email, accessToken: autoGenToken };
     })
     .catch(error => {
