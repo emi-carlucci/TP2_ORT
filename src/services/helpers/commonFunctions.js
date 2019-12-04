@@ -1,6 +1,7 @@
 const Discounts = require("../../models/descuentos.js")
 const Users = require("../../models/usuarios.js")
 const Tokens = require("../../models/tokens.js")
+const Items = require("../../models/items.js")
 const config_values = require('../../config/config.json')
 
 const validacionLogin = async (usuario, contrasena) => {
@@ -78,6 +79,28 @@ const obtenerBruto = async (value) => {
 
 }
 
+const obtenerRubro = async (value) => {
+
+    let result;
+
+    result = await Items.findOne( { item_id: value} ).exec()
+    .then(item => { 
+        if (item === null){ 
+            throw new Error(`El idRubro: '${value}' es Inexistente`) 
+        }
+        if (item.avg_salary === null || isNaN(item.avg_salary)){ 
+            throw new Error(`El idRubro '${value}' contiene valores invalidos en BD`) 
+        }
+        console.log(`idRubro: '${value}' Encontrado -> '${item.item_name}'`);
+        return item.avg_salary;
+    })
+    .catch(error => {
+        throw new Error(error.message)
+    });
+    return result;
+
+}
+
 const calculoSAC = (value) => {
     return (value / 2)
 }
@@ -91,5 +114,6 @@ module.exports = {
     calculoSAC,
     calculoVacaciones,
     validacionLogin,
-    obtenerBruto
+    obtenerBruto,
+    obtenerRubro
 }

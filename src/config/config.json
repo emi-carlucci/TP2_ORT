@@ -9,7 +9,8 @@
     "calcularSueldoNeto": "/calcularSueldoNeto",
     "calcularSueldoBruto": "/calcularSueldoBruto",
     "calcularSAC": "/calcularSAC",
-    "calcularVacaciones": "/calcularVacaciones"
+    "calcularVacaciones": "/calcularVacaciones",
+    "calcularSueldoPromedio": "/calcularSueldoPromedio"
   },
   "response_codes": {
     "status_ok": 200,

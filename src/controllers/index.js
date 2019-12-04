@@ -1,8 +1,8 @@
 const appServices = require('../services')
 const reqValidations = require('../utils')
 
-const { calcularSueldoNeto, calcularSueldoBruto, calcularSAC, calcularVacaciones, obtenerStatus, login} = appServices
-const { calculoSueldoRequestValidation, calculoSacVacRequestValidation, loginRequestValidation, tokenValidation } = reqValidations
+const { calcularSueldoNeto, calcularSueldoBruto, calcularSAC, calcularVacaciones, obtenerStatus, login, calculoSueldoPromedio} = appServices
+const { calculoSueldoRequestValidation, calculoSacVacRequestValidation, loginRequestValidation, tokenValidation, calculoSueldoPromedioValidation } = reqValidations
 
 // methods
 const getStatus = async (req, res) => {
@@ -99,11 +99,29 @@ const postCalculoVacaciones = async (req, res) => {
     }
 }
 
+const postCalculoSueldoPromedio = async (req, res) => {
+    console.log('Calculando Sueldo Promedio: ' + req.url)
+    try {
+        //request validation
+        await calculoSueldoPromedioValidation(req.body)
+        //token validation
+        await tokenValidation(req.headers)
+        //destructuring request
+        const { idRubro, sueldoBruto } = req.body
+        let result = await calculoSueldoPromedio(idRubro, sueldoBruto)
+        res.status(result.status).json(result)
+    } catch (err) {
+        console.log(err)
+        res.status(err.status).json(err)
+    }
+}
+
 module.exports = {
     postCalculoSueldoNeto,
     postCalculoSueldoBruto,
     postCalculoAguinaldo,
     postCalculoVacaciones,
+    postCalculoSueldoPromedio,
     getStatus,
     postLogin
 }
