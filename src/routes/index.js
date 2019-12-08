@@ -1,7 +1,7 @@
 const express = require('express')
 
 const config_values = require('../config/config.json')
-const { postCalculoSueldoNeto, postCalculoSueldoBruto, postCalculoAguinaldo, postCalculoVacaciones, postCalculoSueldoPromedio, getStatus, postLogin } = require('../controllers')
+const { postCalculoSueldoNeto, postCalculoSueldoBruto, postCalculoAguinaldo, postCalculoVacaciones, postCalculoSueldoPromedio, getStatus, postLogin, postSignUp } = require('../controllers')
 
 const router = express.Router()
 
@@ -12,5 +12,6 @@ router.post(config_values.paths.calcularSAC, postCalculoAguinaldo)
 router.post(config_values.paths.calcularVacaciones, postCalculoVacaciones)
 router.post(config_values.paths.calcularSueldoPromedio, postCalculoSueldoPromedio)
 router.post(config_values.paths.login, postLogin)
+router.post(config_values.paths.signup, postSignUp)
 
 module.exports = router

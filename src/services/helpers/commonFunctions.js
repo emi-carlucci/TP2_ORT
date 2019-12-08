@@ -25,6 +25,25 @@ const validacionLogin = async (usuario, contrasena) => {
 
 }
 
+const validacionSignUp = async (nombre, apellido, usuario, contrasena) => {
+
+    let result;
+
+    result = await Users.findOne({ email: usuario, active: true}).exec()
+    .then(async user => { 
+        if (user != null){ 
+            throw new Error(`El Usuario '${usuario}' ya se encuentra registrado`) 
+        }
+        await Users.create({ name: nombre, surname: apellido, email: usuario, password: contrasena, active: true });
+        return { usuario: usuario };
+    })
+    .catch(error => {
+        throw new Error(error.message)
+    });
+    return result;
+
+}
+
 const obtenerDescuentos = async (value, contributions, desc) => {
 
     let result;
@@ -114,6 +133,7 @@ module.exports = {
     calculoSAC,
     calculoVacaciones,
     validacionLogin,
+    validacionSignUp,
     obtenerBruto,
     obtenerRubro
 }

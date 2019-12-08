@@ -15,6 +15,20 @@ const loginRequestValidation = async (body) => {
     }
 }
 
+// metodo de validacion para alta de usuario
+const signUpRequestValidation = async (body) => {
+    const schema = {
+        nombre: joi.string().min(1).max(25).required(),
+        apellido: joi.string().min(1).max(25).required(),
+        usuario: joi.string().min(6).max(30).required(),
+        contrasena: joi.string().alphanum().min(6).max(26).required(),
+    }
+    const { error } = joi.validate(body, schema);
+    if (error != null) {
+        throw { descripcion: config_values.description_codes.status_error, reason: error.message, status: config_values.response_codes.status_error }
+    }
+}
+
 // metodo de validacion de userToken
 const tokenValidation = async (headers) => {
     
@@ -82,5 +96,6 @@ module.exports = {
     calculoSacVacRequestValidation,
     loginRequestValidation,
     tokenValidation,
-    calculoSueldoPromedioValidation
+    calculoSueldoPromedioValidation,
+    signUpRequestValidation
 }

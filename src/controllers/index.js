@@ -1,8 +1,8 @@
 const appServices = require('../services')
 const reqValidations = require('../utils')
 
-const { calcularSueldoNeto, calcularSueldoBruto, calcularSAC, calcularVacaciones, obtenerStatus, login, calculoSueldoPromedio} = appServices
-const { calculoSueldoRequestValidation, calculoSacVacRequestValidation, loginRequestValidation, tokenValidation, calculoSueldoPromedioValidation } = reqValidations
+const { calcularSueldoNeto, calcularSueldoBruto, calcularSAC, calcularVacaciones, obtenerStatus, login, signUp, calculoSueldoPromedio} = appServices
+const { calculoSueldoRequestValidation, calculoSacVacRequestValidation, loginRequestValidation, tokenValidation, calculoSueldoPromedioValidation, signUpRequestValidation } = reqValidations
 
 // methods
 const getStatus = async (req, res) => {
@@ -24,6 +24,21 @@ const postLogin = async (req, res) => {
         //destructuring request
         const { usuario, contrasena } = req.body
         let result = await login(usuario, contrasena)
+        res.status(result.status).json(result)
+    } catch (err) {
+        console.log(err)
+        res.status(err.status).json(err)
+    }
+}
+
+const postSignUp = async (req, res) => {
+    console.log('Proecesando SignUp: ' + req.url)
+    try {
+        //request validation
+        await signUpRequestValidation(req.body)
+        //destructuring request
+        const { nombre, apellido, usuario, contrasena } = req.body
+        let result = await signUp(nombre, apellido, usuario, contrasena)
         res.status(result.status).json(result)
     } catch (err) {
         console.log(err)
@@ -123,5 +138,6 @@ module.exports = {
     postCalculoVacaciones,
     postCalculoSueldoPromedio,
     getStatus,
-    postLogin
+    postLogin,
+    postSignUp
 }
