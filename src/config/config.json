@@ -6,15 +6,16 @@
     "main_path": "/api",
     "status": "/",
     "login": "/login",
+    "signup": "/signup",
     "calcularSueldoNeto": "/calcularSueldoNeto",
     "calcularSueldoBruto": "/calcularSueldoBruto",
     "calcularSAC": "/calcularSAC",
-    "calcularVacaciones": "/calcularVacaciones"
+    "calcularVacaciones": "/calcularVacaciones",
+    "calcularSueldoPromedio": "/calcularSueldoPromedio"
   },
   "response_codes": {
     "status_ok": 200,
-    "status_error": 400,
-    "unauthorized_error": 401
+    "status_error": 400
   },
   "description_codes": {
     "status_ok": "Request Procesado OK",
@@ -35,6 +36,6 @@
   },
   "security": {
     "access_token_ttl": 15,
-    "token_validation_enable": true
+    "token_validation_enable": false
   }
 }

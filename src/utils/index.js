@@ -15,6 +15,20 @@ const loginRequestValidation = async (body) => {
     }
 }
 
+// metodo de validacion para alta de usuario
+const signUpRequestValidation = async (body) => {
+    const schema = {
+        nombre: joi.string().min(1).max(25).required(),
+        apellido: joi.string().min(1).max(25).required(),
+        usuario: joi.string().min(6).max(30).required(),
+        contrasena: joi.string().alphanum().min(6).max(26).required(),
+    }
+    const { error } = joi.validate(body, schema);
+    if (error != null) {
+        throw { descripcion: config_values.description_codes.status_error, reason: error.message, status: config_values.response_codes.status_error }
+    }
+}
+
 // metodo de validacion de userToken
 const tokenValidation = async (headers) => {
     
@@ -65,9 +79,23 @@ const calculoSacVacRequestValidation = async (body) => {
     }
 }
 
+// metodo de validacion para calcular sueldo promedio
+const calculoSueldoPromedioValidation = async (body) => {
+    const schema = {
+        idRubro: joi.number().precision(2).min(1).max(100).required(),
+        sueldoBruto: joi.number().precision(2).min(0).max(1000000000).required(),
+    }
+    const { error } = joi.validate(body, schema);
+    if (error != null) {
+        throw { descripcion: config_values.description_codes.status_error, reason: error.message, status: config_values.response_codes.status_error }
+    }
+}
+
 module.exports = {
     calculoSueldoRequestValidation,
     calculoSacVacRequestValidation,
     loginRequestValidation,
-    tokenValidation
+    tokenValidation,
+    calculoSueldoPromedioValidation,
+    signUpRequestValidation
 }
