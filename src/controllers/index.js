@@ -1,7 +1,7 @@
 const appServices = require('../services')
 const reqValidations = require('../utils')
 
-const { calcularSueldoNeto, calcularSueldoBruto, calcularSAC, calcularVacaciones, obtenerStatus, login, signUp, calculoSueldoPromedio} = appServices
+const { calcularSueldoNeto, calcularSueldoBruto, calcularSAC, calcularVacaciones, obtenerStatus, login, signUp, calculoSueldoPromedio, obtenerRubros} = appServices
 const { calculoSueldoRequestValidation, calculoSacVacRequestValidation, loginRequestValidation, tokenValidation, calculoSueldoPromedioValidation, signUpRequestValidation } = reqValidations
 
 // methods
@@ -9,6 +9,17 @@ const getStatus = async (req, res) => {
     console.log('Respondiendo App Status: ' + req.url)
     try {
         let result = await obtenerStatus()
+        res.status(result.status).json(result)
+    } catch (err) {
+        console.log(err)
+        res.status(err.status).json(err)
+    }
+}
+
+const getObtenerRubros = async (req, res) => {
+    console.log('Obteniendo Rubros: ' + req.url)
+    try {
+        let result = await obtenerRubros()
         res.status(result.status).json(result)
     } catch (err) {
         console.log(err)
@@ -139,5 +150,6 @@ module.exports = {
     postCalculoSueldoPromedio,
     getStatus,
     postLogin,
-    postSignUp
+    postSignUp,
+    getObtenerRubros
 }

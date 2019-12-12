@@ -120,6 +120,30 @@ const obtenerRubro = async (value) => {
 
 }
 
+const obtenerTodosRubros = async () => {
+
+    let result;
+
+    result = await Items.find( {} ).exec()
+    .then(items => { 
+        if (items === null){ 
+            throw new Error('No se encontraron Rubros en BD') 
+        }
+        var i = 0;
+        var itemsMap = [];
+        items.forEach(function(item) {
+        itemsMap[i] = { rubro: item.item_name, sueldoPromedio: parseFloat(item.avg_salary) };
+        i++;
+        });
+        return itemsMap;
+    })
+    .catch(error => {
+        throw new Error(error.message)
+    });
+    return result;
+
+}
+
 const calculoSAC = (value) => {
     return (value / 2)
 }
@@ -135,5 +159,6 @@ module.exports = {
     validacionLogin,
     validacionSignUp,
     obtenerBruto,
-    obtenerRubro
+    obtenerRubro,
+    obtenerTodosRubros
 }

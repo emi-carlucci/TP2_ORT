@@ -1,9 +1,22 @@
 const config_values = require('../config/config.json')
-const { calculoSAC, calculoVacaciones, validacionLogin, validacionSignUp, obtenerDescuentos, obtenerBruto, obtenerRubro } = require('./helpers/commonFunctions.js')
+const { calculoSAC, calculoVacaciones, validacionLogin, validacionSignUp, obtenerDescuentos, obtenerBruto , obtenerRubro, obtenerTodosRubros} = require('./helpers/commonFunctions.js')
 
 const obtenerStatus = async () => {
   try {
     return {
+      status: config_values.response_codes.status_ok
+    }
+  } catch (error) {
+      throw { descripcion: config_values.description_codes.status_error, reason: error.message, status: config_values.response_codes.status_error }
+  }
+}
+
+const obtenerRubros = async () => {
+  try {
+    let result = await obtenerTodosRubros();
+    console.log('Rubros Obtenidos Exitosamente');
+    return {
+      rubros: result,
       status: config_values.response_codes.status_ok
     }
   } catch (error) {
@@ -138,5 +151,6 @@ module.exports = {
   calculoSueldoPromedio,
   obtenerStatus,
   login,
-  signUp
+  signUp,
+  obtenerRubros
 }
