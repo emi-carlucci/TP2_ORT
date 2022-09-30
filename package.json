@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@hapi/joi": "^15.0.2",
+    "@hapi/joi": "^15.1.1",
     "express": "^4.17.1",
     "lodash": "^4.17.15"
   },
